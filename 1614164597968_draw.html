@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SVG DRwaing</title>
+	<style>
+	.button {
+	 
+	  border: black solid;
+	  color: black;
+	  padding: 15px 32px;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  font-size: 16px;
+	  margin: 4px 2px;
+	  
+	  cursor: pointer;
+	}
+
+	
+	</style>
+   <script>
+   
+    var  startDraw = false;
+    var  isRemove = false;
+    var  isLine = true;
+    var  isRect = false;
+    var  color1 = "red";
+	 var tmpPath;
+var isStart = true;
+   
+    var startX = 0;
+    var startY = 0; 
+	var line;
+	var bufferSize;
+	var d4;
+	var x2,y2;
+	buffer = [];
+	
+   </script>
+  </head>
+<body>
+<div>
+	  <svg id="svgDraw" xmlns="http://www.w3.org/2000/svg"
+	  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
+	  width="750px" height="600px" onmousedown = "onDown(evt)" onmousemove = "onMove(evt)" onmouseup="onUp(evt)" style = "border:red solid">
+
+	  <script>
+	  
+		var mysvg = document.getElementById("svgDraw");
+		
+		  function onMove(evt){
+			if(startDraw == true){
+			  t1 = evt.x;
+			  t2 = evt.y;
+				if(isLine){
+					if(isStart){
+						d1 = "M"+" "+ startX +" "+ startY +" ";
+						isStart =  false;
+						tmpPath = " L" + t1 + " " + t2;
+						
+					}else {
+							tmpPath += " L" + t1 + " " + t2;
+					}			
+				
+					path.setAttribute("d",d1 + tmpPath);
+					path.setAttribute("fill",'none');
+					
+					path.setAttribute("stroke",color1);
+					path.setAttribute("stroke-width",3);
+					mysvg.appendChild(path);
+					
+				}
+				if(isRect){
+					d2 = "M"+startX +" "+ startY +" "+"H" + t1 +" "+ "V" + t2  +" "+ "L"+ t1 +" "+ t2 +" "+"H" + startX +" "+ "V" + startY;
+					path.setAttribute("d",d2);
+					path.setAttribute("stroke",color1);
+					path.setAttribute("fill",'none');
+					path.setAttribute("stroke-width",3);
+					mysvg.appendChild(path);
+					
+				}
+			}
+			
+		  }
+		  
+		 
+	
+		  function onDown(evt){
+			console.log("onDown");
+			path = document.createElementNS('http://www.w3.org/2000/svg', "path");
+			
+			startDraw = true;
+			startX = evt.x;
+			startY = evt.y;
+		  }
+		  function onUp(evt){
+			console.log("onUp");
+			isStart = true;
+			startDraw = false;
+			
+		  }
+		  function onMove2(evt){
+			console.log("onMove2");
+		   if(isRemove){
+				path1.removeAttribute("d",d1);
+				
+			  }
+		  }
+		 function onLine(){
+			  isRemove = false;
+			  isLine = true;
+			  isRect = false;
+		  }
+		  function onRect(){
+			  isRemove = false;
+			  isLine = false;
+			  isRect = true;
+		  }
+		  function onRemove(){
+				document.getElementById("svgDraw").innerHTML = "";
+		  }
+		  function redColor(){
+			  color1 = "red";
+		  }
+		  function greenColor(){
+			 color1 = "green";
+		  }
+		  function yellowColor(){
+			 color1 = "yellow";
+		  }
+		</script>
+	   
+	   
+	  </svg>
+	  </div>
+	  <div>
+		 <button class = "button" type="button" onclick= "onLine()">Free Path</button> 
+		 <button class = "button" type="button" onclick= "onRect()" >Rectangle</button> 
+		 <button class = "button" type="button" onclick= "onRemove()" > Clear</button> 
+	
+	
+		<button class = "button" type="button" onclick= "redColor()" style="background-color:red; width : 10px height : 10px">red</button> 
+		 <button class = "button" type="button" onclick= "greenColor()" style="background-color:green;">green</button> 
+		 <button class = "button" type="button" onclick= "yellowColor()" style="background-color:yellow;"> yellow</button> 
+	  
+	  </div>
+
+</body>
+</html>
